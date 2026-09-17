@@ -86,12 +86,37 @@ await page.getByRole('textbox', {name: 'Article Title'}).fill('playwright')
 await page.getByRole('textbox', {name: 'What\'s this article about?'}).fill('testing')
 await page.getByRole('textbox', {name: 'Write your article'}).fill('testing with playwright')
 await page.getByRole('button', {name: 'Publish Article'}).click()
+//collects all information related to API call 
+const createArticleResponse = await page.waitForResponse('https://conduit-api.bondaracademy.com/api/articles/')
+const articleResponseJSON = await createArticleResponse.json()
+const slugID = articleResponseJSON.article.slug
 
 await expect(page.locator('.article-page h1')).toContainText('playwright')
 await page.getByText('Home').first().click()
 await expect(page.locator('.article-preview h1').first()).toContainText('playwright')
 
 
+const loginResponse = await request.post('https://conduit-api.bondaracademy.com/api/users/login', {
+  data: {
+   "user":{
+      "email":"bevqa123@email.com",
+      "password":"testing123"
+    }
+  }
+})
+expect ((loginResponse).status()).toEqual(200)
+const responseLoginJSON = await loginResponse.json()
+const token = responseLoginJSON.user.token
+console.log(token)
+
+//no body for delete just need slugID 
+const deleteResponse = await request.delete(`https://conduit-api.bondaracademy.com/api/articles/${slugID}`,{
+   headers:{
+    Authorization: `Token ${token}`
+  }
+})
+
+expect (deleteResponse.status()).toEqual(204)
 
 
 })
