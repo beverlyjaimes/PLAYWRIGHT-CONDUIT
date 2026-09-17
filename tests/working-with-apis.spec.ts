@@ -73,3 +73,25 @@ await expect(page.locator('.preview-link h1').first()).not.toContainText('Bev Te
 
 
 })
+
+test('Create article', async ({page, request}) =>{
+await page.goto('https://conduit.bondaracademy.com');
+await page.getByText('Sign in').click()
+await page.getByRole('textbox', {name: 'Email'}).fill('bevqa123@email.com')
+await page.getByRole('textbox', {name: 'Password'}).fill('testing123')
+await page.getByRole('button', {name: 'Sign in'}).click()
+
+await page.getByText('New Article').click()
+await page.getByRole('textbox', {name: 'Article Title'}).fill('playwright')
+await page.getByRole('textbox', {name: 'What\'s this article about?'}).fill('testing')
+await page.getByRole('textbox', {name: 'Write your article'}).fill('testing with playwright')
+await page.getByRole('button', {name: 'Publish Article'}).click()
+
+await expect(page.locator('.article-page h1')).toContainText('playwright')
+await page.getByText('Home').first().click()
+await expect(page.locator('.article-preview h1').first()).toContainText('playwright')
+
+
+
+
+})
