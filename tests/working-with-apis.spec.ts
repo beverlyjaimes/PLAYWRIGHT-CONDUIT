@@ -58,10 +58,7 @@ const newArticleResponse = await request.post('https://conduit-api.bondaracademy
 })
 expect ((newArticleResponse).status()).toEqual(201)
 await page.goto('https://conduit.bondaracademy.com');
-await page.getByText('Sign in').click()
-await page.getByRole('textbox', {name: 'Email'}).fill('bevqa123@email.com')
-await page.getByRole('textbox', {name: 'Password'}).fill('testing123')
-await page.getByRole('button', {name: 'Sign in'}).click()
+
 
 await expect(page.locator('.preview-link h1').first()).toContainText('Bev Test Article')
 await page.getByText('Bev Test Article').click()
@@ -76,10 +73,6 @@ await expect(page.locator('.preview-link h1').first()).not.toContainText('Bev Te
 
 test('Create article', async ({page, request}) =>{
 await page.goto('https://conduit.bondaracademy.com');
-await page.getByText('Sign in').click()
-await page.getByRole('textbox', {name: 'Email'}).fill('bevqa123@email.com')
-await page.getByRole('textbox', {name: 'Password'}).fill('testing123')
-await page.getByRole('button', {name: 'Sign in'}).click()
 
 await page.getByText('New Article').click()
 await page.getByRole('textbox', {name: 'Article Title'}).fill('playwright')
