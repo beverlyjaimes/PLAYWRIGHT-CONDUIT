@@ -47,9 +47,9 @@ const newArticleResponse = await request.post('https://conduit-api.bondaracademy
   data:{
     "article":{
       "title":"Bev Test Article",
-      "description":"asdf",
-      "body":"531w5asdf",
-      "tagList":["5w1asdfasf35"]
+      "description":"test",
+      "body":"test",
+      "tagList":["test"]
     }
   },
   headers:{
@@ -75,18 +75,18 @@ test('Create article', async ({page, request}) =>{
 await page.goto('https://conduit.bondaracademy.com');
 
 await page.getByText('New Article').click()
-await page.getByRole('textbox', {name: 'Article Title'}).fill('playwright')
-await page.getByRole('textbox', {name: 'What\'s this article about?'}).fill('testing')
-await page.getByRole('textbox', {name: 'Write your article'}).fill('testing with playwright')
+await page.getByRole('textbox', {name: 'Article Title'}).fill('Bev Test Article')
+await page.getByRole('textbox', {name: 'What\'s this article about?'}).fill('test')
+await page.getByRole('textbox', {name: 'Write your article'}).fill('test')
 await page.getByRole('button', {name: 'Publish Article'}).click()
 //collects all information related to API call 
 const createArticleResponse = await page.waitForResponse('https://conduit-api.bondaracademy.com/api/articles/')
 const articleResponseJSON = await createArticleResponse.json()
 const slugID = articleResponseJSON.article.slug
 
-await expect(page.locator('.article-page h1')).toContainText('playwright')
+await expect(page.locator('.article-page h1')).toContainText('Test')
 await page.getByText('Home').first().click()
-await expect(page.locator('.article-preview h1').first()).toContainText('playwright')
+await expect(page.locator('.article-preview h1').first()).toContainText('Test')
 
 
 const loginResponse = await request.post('https://conduit-api.bondaracademy.com/api/users/login', {
