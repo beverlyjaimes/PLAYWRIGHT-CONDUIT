@@ -82,7 +82,7 @@ await page.getByRole('button', {name: 'Publish Article'}).click()
 //collects all information related to API call 
 const createArticleResponse = await page.waitForResponse('https://conduit-api.bondaracademy.com/api/articles/')
 const articleResponseJSON = await createArticleResponse.json()
-const slugID = articleResponseJSON.article.slug
+const slugID = articleResponseJSON.article.slugID
 
 await expect(page.locator('.article-page h1')).toContainText('Test')
 await page.getByText('Home').first().click()
@@ -105,7 +105,7 @@ console.log(token)
 //no body for delete just need slugID 
 const deleteResponse = await request.delete(`https://conduit-api.bondaracademy.com/api/articles/${slugID}`,{
    headers:{
-    Authorization: `Token ${token}`
+    // Authorization: `Token ${token}`
   }
 })
 
